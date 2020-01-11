@@ -6,7 +6,7 @@
 #    By: ikhadem <ikhadem@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/10 08:39:23 by ikhadem           #+#    #+#              #
-#    Updated: 2020/01/11 08:21:20 by ikhadem          ###   ########.fr        #
+#    Updated: 2020/01/11 09:03:20 by ikhadem          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,9 +37,6 @@ clean :
 	rm -rf $(OBJ)
 
 fclean : clean
-	rm -rf $(NAME) a.out
+	rm -rf $(NAME)
 
 re : fclean all
-
-test:
-	gcc $(NAME) main.c
