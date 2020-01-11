@@ -11,7 +11,7 @@ in wich aim is to get familiar with assemly langauge
 - [x] ft_strdup
 
 ## Prerequisit
-to test these function you need 'Nasm installed'(https://www.nasm.us/) and compile the library using
+to test these function you need [Nasm installed](https://www.nasm.us/) and compile the library using
 it's make file than link it to your main file
 
 ## ressoureces used to realise this project
