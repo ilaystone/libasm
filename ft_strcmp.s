@@ -1,44 +1,31 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    ft_strcmp.s                                        :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ikhadem <ikhadem@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/01/10 12:09:09 by ikhadem           #+#    #+#              #
-#    Updated: 2020/01/10 19:00:33 by ikhadem          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 			global	_ft_strcmp
 			section	.text
 _ft_strcmp:
-			xor		rcx, rcx
-			cmp		rdi, 0
-			je		equals
-			cmp		rsi, 0
-			je		equals
-			jne		compare
+			xor		rax, rax
+			jmp		compare
 
 increment:
-			cmp		BYTE [rdi + rcx], 0
-			je		equals
-			inc		rcx
+			cmp		BYTE[rdi], 0
+			je		exit
+			inc		rdi
+			inc		rsi
 
 compare:
-			mov		dl, BYTE [rsi + rcx]
-			cmp		BYTE [rdi + rcx], dl
+			mov		dl, BYTE [rdi]
+			mov		cl, BYTE [rsi]
+			movzx	rdx, dl
+			movzx	rcx, cl
+			cmp		rdx, rcx
 			je		increment
 			jl		inferior
-
-superior:
-			mov		rax, 1
-			ret
-
-equals:
-			mov		rax, 0
-			ret
+			jg		superior
 
 inferior:
 			mov		rax, -1
+			jmp		exit
+superior:
+			mov		rax, 1
+			jmp		exit
+
+exit:
 			ret

@@ -1,56 +1,44 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    ft_strdup.s                                        :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ikhadem <ikhadem@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/01/10 18:21:14 by ikhadem           #+#    #+#              #
-#    Updated: 2020/01/10 18:40:02 by ikhadem          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-				global	_ft_strdup
-				extern	_malloc
-				section	.text
+			global	_ft_strdup
+			section	.text
+			extern	_malloc
 
 _ft_strdup:
-				cmp		rdi, 0
-				je		error
+			cmp		rdi, 0
+			je		error
 
 count:
-				mov		rcx, 0
-				jmp		len_count
+			xor		rcx, rcx
+			jmp		length_count
 
-increment:
-				inc		rcx
+count_increment:
+			inc		rcx
 
-len_count:
-				cmp		BYTE [rdi + rcx], 0
-				jne		increment
+length_count:
+			cmp		BYTE[rdi + rcx], 0
+			jne		count_increment
 
 malloc_call:
-				inc		rcx
-				push	rdi
-				mov		rdi, rcx
-				call	_malloc
-				pop		rdi
-				cmp		rax, 0
-				je		error
+			inc		rcx
+			push	rdi
+			mov		rdi, rcx
+			call	_malloc
+			pop		rdi
+			cmp		rax, 0
+			je		error
 
 copy_start:
-				mov		rcx, 0
-				jmp		copy_str
+			xor		rcx, rcx
+			jmp		copy_string
 
 copy_increment:
-				inc		rcx
+			inc		rcx
 
-copy_str:
-				mov		dl, BYTE [rdi + rcx]
-				mov		BYTE [rax + rcx], dl
-				cmp		dl, 0
-				jne		copy_increment
-				jmp		exit
+copy_string:
+			mov		dl, BYTE[rdi + rcx]
+			mov		BYTE[rax + rcx], dl
+			cmp		dl, 0
+			jne		copy_increment
+			je		exit
 
 error:
 			mov		rax, 0

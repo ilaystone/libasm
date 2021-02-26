@@ -1,25 +1,19 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    ft_write.s                                         :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ikhadem <ikhadem@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/01/10 18:54:36 by ikhadem           #+#    #+#              #
-#    Updated: 2020/01/10 20:02:12 by ikhadem          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
+section	.text
 			global	_ft_write
-			section	.text
+			extern	___error
+
 _ft_write:
-			cmp		rsi, 0
-			je		error
-			mov		rax, 0x2000004	; need to add 0x200000 in the mix
-									; (havent figured why)
+			mov		rax, 0x2000004	;0x200000 to mark it for the BSD layer
+									;and the las t digit marks the call and it s
+									;refrense is in <unistd.h>
 			syscall
+			jc		error
 			ret
 
 error:
+			push	rax
+			call	___error
+			pop		rdi
+			mov		[rax], rdi
 			mov		rax, -1
 			ret

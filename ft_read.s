@@ -1,19 +1,18 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    ft_read.s                                          :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ikhadem <ikhadem@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/01/10 20:06:35 by ikhadem           #+#    #+#              #
-#    Updated: 2020/01/10 20:19:17 by ikhadem          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 			global	_ft_read
 			section	.text
+			extern	___error
 
 _ft_read:
-			mov		rax, 0x2000003
+			mov		rax, 0x2000003; adding 0x200000 to mark it for the BSD layer
+									; get the call number from asm/unistd.h
 			syscall
+			jc 		error
+			ret
+
+error:
+			push	rax
+			call	___error
+			pop		rdi
+			mov		[rax], rdi
+			mov		rax, -1
 			ret
