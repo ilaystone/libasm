@@ -12,7 +12,7 @@ _ft_read:
 error:
 			push	rax
 			call	___error
-			pop		rdi
-			mov		[rax], rdi
+			pop		rdx
+			mov		[rax], rdx
 			mov		rax, -1
 			ret
