@@ -1,15 +1,15 @@
-			global	_ft_strlen
-			section	.text
+section	.text
+	global	_ft_strlen
+
+;size_t    	ft_strlen(char *)
+;rdi holds	char *
 _ft_strlen:
-			xor		rax, rax			;making rax 0
-			jmp		compare				;jump to compare label
+			xor		rax, rax			; rax = 0
+			jmp		compare				; go to compare
 increment:
-			inc		rax					;rax value incrementing
+			inc		rax					; rax += 1
 compare:
-			cmp		BYTE [rdi + rax], 0	;comparing rdi + rax byte with 0
-										;used BYTE because expecting a char
-										;	data
-										;[reg + number] is a memory operand
-			jne		increment			;jumping to increment if its false
+			cmp		BYTE [rdi + rax], 0	; if (!(rdi[rax] == 0))
+			jne		increment			; got to increment if it not a zero
 done:
 			ret

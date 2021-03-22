@@ -1,19 +1,23 @@
 section	.text
-			global	_ft_write
-			extern	___error
+	global	_ft_write
+	extern	___error
 
+;ssize_t	write(int , const void *, size_t count);
+;rdi holds	int fd
+;rsi holds	const void *buf
+;rdx holds	size_t count
 _ft_write:
-			mov		rax, 0x2000004	;0x200000 to mark it for the BSD layer
-									;and the las t digit marks the call and it s
-									;refrense is in <unistd.h>
-			syscall
-			jc		error
-			ret
+	mov		rax, 0x2000004	;0x200000 to mark it for the BSD layer
+							;and the las t digit marks the call and it s
+							;refrense is in <unistd.h>
+	syscall					; syscall return number of chars wrriten or error code
+	jc		error			; if syscall fails
+	ret
 
 error:
-			push	rax
-			call	___error
-			pop		rdx
-			mov		[rax], rdx
-			mov		rax, -1
-			ret
+	push	rax				; store return value of syscall
+	call	___error		; get *errno
+	pop		rdx
+	mov		[rax], rdx		; *errno = return value
+	mov		rax, -1			; return -1
+	ret

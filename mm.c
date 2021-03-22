@@ -6,7 +6,7 @@
 /*   By: ikhadem <ikhadem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 16:23:04 by ikhadem           #+#    #+#             */
-/*   Updated: 2021/03/22 13:52:40 by ikhadem          ###   ########.fr       */
+/*   Updated: 2021/03/22 16:24:12 by ikhadem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ typedef struct s_list
 	struct s_list *next;
 } t_list;
 
+size_t     ft_strlen(char *str);
+char        *ft_strcpy(char *dst, const char *src);
 void        ft_swap(void *a, void *b);
 void		ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)(), void (*free_fct)());
 void        ft_list_sort(t_list **begin_list, int (*cmp)());

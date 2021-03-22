@@ -43,6 +43,7 @@ swap:
 	mov		rdi, [r12]			; rdi = *begin_list
 	jmp		while
 return:
+	mov		rdi, r12			; restore head
 	pop		r8
 	pop		r10
 	pop		r11
