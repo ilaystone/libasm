@@ -49,6 +49,11 @@ determine_sign:
 				mov		r14, 1
 				cmp		BYTE[rdi], '-'
 				je		negative_sign
+				cmp		BYTE[rdi], '+'
+				je		positive_sign
+				jmp		atoi_get_nbr
+positive_sign:
+				inc		rdi
 				jmp		atoi_get_nbr
 negative_sign:
 				inc		rdi
