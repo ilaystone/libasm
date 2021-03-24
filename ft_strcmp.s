@@ -14,20 +14,12 @@ increment:
 			inc		rdi				; rdi++
 			inc		rsi				; rsi++
 compare:
-			mov		dl, BYTE [rdi]	; dl = *rdi
-			mov		cl, BYTE [rsi]	; cl = *rsi
-			movzx	rdx, dl			; convert to 64-bit unsigned value
-			movzx	rcx, cl			; convert to 64-bit unsigned value
+			movzx	rdx, BYTE [rdi]	; rdx = *rdi
+			movzx	rcx, BYTE [rsi]	; rcx = *rsi
 			cmp		rdx, rcx
 			je		increment		; if (rdx == rcx)	increment
-			jl		inferior		; if (rdx < rcx)	return -1
-			jg		superior		; if (rdx > rcx)	return 1
-inferior:
-			mov		rax, -1
-			jmp		exit
-superior:
-			mov		rax, 1
-			jmp		exit
+			sub		rdx, rcx
+			mov		rax, rdx
 exit:
 			pop		rcx
 			ret
