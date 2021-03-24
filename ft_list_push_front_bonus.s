@@ -16,6 +16,8 @@ _ft_list_push_front:
     cmp     rax, 0          ; if (rax == null)
     je      exit            ; return
     mov     [rax], rsi      ; rax->data = rsi
+    mov     rdx, 0
+    mov     [rax + 8], rdx    ; rax->next = null
     mov     rcx, [rdi]      ; rcx = *begin_list
     mov     [rax + 8], rcx  ; rax->next = rcx
     mov     [rdi], rax      ; *begin_list = rax

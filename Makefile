@@ -6,7 +6,7 @@
 #    By: ikhadem <ikhadem@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/10 08:39:23 by ikhadem           #+#    #+#              #
-#    Updated: 2021/03/22 15:56:31 by ikhadem          ###   ########.fr        #
+#    Updated: 2021/03/24 11:05:06 by ikhadem          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,3 +56,9 @@ bonus : $(OBJ) $(BONUS_OBJ)
 	ar rcs $(NAME) $(OBJ) $(BONUS_OBJ)
 
 re_bonus : fclean bonus
+
+test: re
+	gcc main.c $(NAME) -o test_results
+
+test_bonus: re_bonus
+	gcc main_bonus.c $(NAME) -o test_results

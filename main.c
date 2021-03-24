@@ -5,133 +5,157 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikhadem <ikhadem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/24 08:05:41 by ikhadem           #+#    #+#             */
-/*   Updated: 2021/03/09 11:49:31 by ikhadem          ###   ########.fr       */
+/*   Created: 2021/03/23 13:38:31 by ikhadem           #+#    #+#             */
+/*   Updated: 2021/03/24 11:39:00 by ikhadem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdio.h>
-// #include <unistd.h>
-// #include <stdlib.h>
-// #include <string.h>
-// #include <errno.h>
+#include "libasm.h"
 
-// typedef struct s_list
-// {
-// 	void *data;
-// 	struct s_list *next;
-// } t_list;
+# define BUFF_SIZE 500
 
-// int			ft_strlen(char *str);
-// char		*ft_strcpy(char *dst, char *src);
-// int			ft_strcmp(char *s1, char *s2);
-// ssize_t		ft_write(int fd, const void *buf, size_t nbytes);
-// int			ft_atoi_base(char *str, char *base);
-
-
-// int		main(void)
-// {
-// 	int		i = 10;
-// 	printf("trash");
-// 	return (0);
-// }
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdio.h>
-
-/*
-** Useful macros
-*/
-# define STRLEN(x)			printf("`%s` = %d (%d)\n", x, ft_strlen(x), (int)strlen(x));
-# define STRCMP(a, b)		printf("`%s`:`%s` = %d (%d)\n", a, b, ft_strcmp(a, b), strcmp(a, b));
-# define WRITE(s, x)		printf("^%ld (`%s`:%ld)\n", ft_write(STDOUT_FILENO, s, x), s, x);
-# define READ(b, x)			r = ft_read(STDIN_FILENO, buffer, x); printf("`%s`:%ld\n", buffer, r);
-# define DUP(s)				tmp = ft_strdup(s); printf("`%s` (`%s`)\n", tmp, s); free(tmp); tmp = NULL;
-
-/*
-** Function prototypes
-*/
-int		ft_strlen(char const *str);
-
-int		ft_strcmp(char const *s1, char const *s2);
-
-char	*ft_strcpy(char *dst, char const *src);
-
-ssize_t	ft_write(int fd, void const *buf, size_t nbyte);
-
-ssize_t	ft_read(int fd, void *buf, size_t nbyte);
-
-char	*ft_strdup(char const *s1);
-
-/*
-** Start !
-*/
-int		main(void)
+void    print_strlen_result(char *a)
 {
-	int		i;
-	long	r;
-	char	buffer[100];
-	char	*tmp;
-	char	*tmp2;
+    printf("string: \"%s\"\nft_strlen: %lu\tstrlen: %lu\n", a, ft_strlen(a), strlen(a));
+}
+void    test_strlen()
+{
+    print_strlen_result("");
+    print_strlen_result("BON");
+    print_strlen_result("bonjour");
+    print_strlen_result("the\0hidden");
+    print_strlen_result("Lorem ipsum dolor sit amet, consectetur adipiscing\
+elit. Sed in malesuada purus. Etiam a scelerisque massa. Ut non euismod elit. Aliquam\
+bibendum dolor mi, id fringilla tellus pulvinar eu. Fusce vel fermentum sem. Cras\
+volutpat, eros eget rhoncus rhoncus, diam augue egestas dolor, vitae rutrum nisi\
+felis sed purus. Mauris magna ex, mollis non suscipit eu, lacinia ac turpis. Phasellus\
+ac tortor et lectus fermentum lobortis eu at mauris. Vestibulum sit amet posuere\
+tortor, sit amet consequat amet.");
+}
 
-	r = 0;
-	i = 0;
-	while (i < 100)
-		buffer[i++] = 0;
+void    print_strcpy(char *str, char *buff)
+{
+    printf("\"%s\": %s\n", str, strcmp(str, buff) == 0 ? "True" : "false");
+}
 
-	printf("--strlen\n");
-	STRLEN("")
-	STRLEN("toto")
-	STRLEN("totototo")
-	STRLEN("0123456789abcdef")
-	STRLEN("42")
-	STRLEN("1")
-	printf("-done\n");
+void    test_strcpy()
+{
+    char    s[BUFF_SIZE];
+    print_strcpy("", ft_strcpy(s, ""));
+    print_strcpy("BON", ft_strcpy(s, "BON"));
+    print_strcpy("bonjour", ft_strcpy(s, "bonjour"));
+    print_strcpy("the\0hidden", ft_strcpy(s, "the\0hidden"));
+    print_strcpy("Lorem ipsum dolor sit amet, consectetur adipiscing\
+elit. Sed in malesuada purus. Etiam a scelerisque massa. Ut non euismod elit. Aliquam\
+bibendum dolor mi, id fringilla tellus pulvinar eu. Fusce vel fermentum sem. Cras\
+volutpat, eros eget rhoncus rhoncus, diam augue egestas dolor, vitae rutrum nisi\
+felis sed purus. Mauris magna ex, mollis non suscipit eu, lacinia ac turpis. Phasellus\
+ac tortor et lectus fermentum lobortis eu at mauris. Vestibulum sit amet posuere\
+tortor, sit amet consequat amet.", ft_strcpy(s, "Lorem ipsum dolor sit amet, consectetur adipiscing\
+elit. Sed in malesuada purus. Etiam a scelerisque massa. Ut non euismod elit. Aliquam\
+bibendum dolor mi, id fringilla tellus pulvinar eu. Fusce vel fermentum sem. Cras\
+volutpat, eros eget rhoncus rhoncus, diam augue egestas dolor, vitae rutrum nisi\
+felis sed purus. Mauris magna ex, mollis non suscipit eu, lacinia ac turpis. Phasellus\
+ac tortor et lectus fermentum lobortis eu at mauris. Vestibulum sit amet posuere\
+tortor, sit amet consequat amet."));
+}
 
-	printf("\n--strcmp\n");
-	STRCMP("", "")
-	STRCMP("toto", "toto")
-	STRCMP("", "toto")
-	STRCMP("toto", "")
-	STRCMP("toto", "totobar")
-	// printf("`%s`:`%s` = %d\n", "TOTO", NULL, ft_strcmp("TOTO", NULL));
-	// printf("`%s`:`%s` = %d\n", NULL, "TOTO", ft_strcmp(NULL, "TOTO"));
-	// printf("`%s`:`%s` = %d\n", NULL, NULL, ft_strcmp(NULL, NULL));
-	printf("-done\n");
+void    print_strcmp(char *s1, char *s2)
+{
+    printf("Expect: %d\tActual: %d\n", strcmp(s1, s2), ft_strcmp(s1, s2));
+}
 
-	printf("\n--strcpy\n");
-	printf("`%s` (`toto`)\n", ft_strcpy(buffer, "toto"));
-	printf("`%s` (empty)\n", ft_strcpy(buffer, ""));
-	printf("`%s` (`long message`)\n", ft_strcpy(buffer, "long message"));
-	// printf("`%s` (NULL > not modified)\n", ft_strcpy(buffer, NULL));
-	printf("-done\n");
+void    test_strcmp()
+{
+    print_strcmp("", "");
+    print_strcmp("BON", "");
+    print_strcmp("the\0hidden", "the\0hidden");
+    print_strcmp("the\0hidden", "");
+    print_strcmp("", "Bonjour");
+    print_strcmp("111", "110");
+}
 
-	printf("\n--write\n");
-	WRITE("toto", 4L)
-	WRITE("totototo", 4L)
-	WRITE("totototo", 8L)
-	WRITE("toto", 2L)
-	printf("-done\n");
+void    test_write()
+{
+    ssize_t     a;
+    a = ft_write(-1, "test", 5);
+    printf("fd = -1, %zd, error: %s\n", a, strerror(errno));
+    a = ft_write(STDOUT_FILENO, "test", 0);
+    printf("fd = 1, %zd\n", a);
+    a = ft_write(STDOUT_FILENO, "test", 5);
+    printf("fd = 1, %zd\n", a);
+}
 
-	printf("\n--read (Makefile)\n");
-	READ(buffer, 50)
-	READ(buffer, 25)
-	READ(buffer, 4)
-	READ(buffer, 26)
-	READ(buffer, 14)
-	READ(buffer, 0)
-	printf("-done\n");
+void    test_read()
+{
+    ssize_t     a;
+    int         fd;
+    char        buf[BUFF_SIZE];
 
-	printf("\n--ft_strdup\n");
-	tmp2 = ft_strdup("toto");
-	DUP(tmp2)
-	free(tmp2);
-	DUP("totobar")
-	DUP("long message")
-	DUP("")
-	DUP(NULL)
-	printf("-done\n");
+    fd = -1;
+    a = ft_read(fd, buf, BUFF_SIZE);
+    printf("fd = %d, %zd, error: %s\n", fd, a, strerror(errno));
+    fd = open("test_case", O_RDONLY);
+    a = ft_read(fd, buf, BUFF_SIZE);
+    printf("fd = %d, %zd, str: %s\n", fd, a, buf);
+}
 
-	return (0);
+void    print_strdup(char *str, char *buf)
+{
+    printf("%s ==> strcmp: %d\n", str, strcmp(str, buf));
+}
+
+void    test_strdup()
+{
+    char    *str;
+
+    str = ft_strdup("");
+    print_strdup("", str);
+    free(str);
+    str = ft_strdup("BON");
+    print_strdup("BON", str);
+    free(str);
+    str = ft_strdup("bonjour");
+    print_strdup("bonjour", str);
+    free(str);
+    str = ft_strdup("the\0hidden");
+    print_strdup("the\0hidden", str);
+    free(str);
+    str = ft_strdup("Lorem ipsum dolor sit amet, consectetur adipiscing\
+elit. Sed in malesuada purus. Etiam a scelerisque massa. Ut non euismod elit. Aliquam\
+bibendum dolor mi, id fringilla tellus pulvinar eu. Fusce vel fermentum sem. Cras\
+volutpat, eros eget rhoncus rhoncus, diam augue egestas dolor, vitae rutrum nisi\
+felis sed purus. Mauris magna ex, mollis non suscipit eu, lacinia ac turpis. Phasellus\
+ac tortor et lectus fermentum lobortis eu at mauris. Vestibulum sit amet posuere\
+tortor, sit amet consequat amet.");
+    print_strdup("Lorem ipsum dolor sit amet, consectetur adipiscing\
+elit. Sed in malesuada purus. Etiam a scelerisque massa. Ut non euismod elit. Aliquam\
+bibendum dolor mi, id fringilla tellus pulvinar eu. Fusce vel fermentum sem. Cras\
+volutpat, eros eget rhoncus rhoncus, diam augue egestas dolor, vitae rutrum nisi\
+felis sed purus. Mauris magna ex, mollis non suscipit eu, lacinia ac turpis. Phasellus\
+ac tortor et lectus fermentum lobortis eu at mauris. Vestibulum sit amet posuere\
+tortor, sit amet consequat amet.", str);
+    free(str);
+}
+
+int     main(int argc, char **argv)
+{
+    if (argc == 2)
+    {
+        if (strcmp(argv[1], "strlen") == 0)
+            test_strlen();
+        if (strcmp(argv[1], "strcpy") == 0)
+            test_strcpy();
+        if (strcmp(argv[1], "strcmp") == 0)
+            test_strcmp();
+        if (strcmp(argv[1], "write") == 0)
+            test_write();
+        if (strcmp(argv[1], "read") == 0)
+            test_read();
+        if (strcmp(argv[1], "strdup") == 0)
+            test_strdup();
+    }
+    else
+        printf("ERROR: options are:\n\tstrlen\n\tstrcpy\n\tstrcmp\n\twrite\n\tread\n\tstrdup\n");
+    return 0;
 }
